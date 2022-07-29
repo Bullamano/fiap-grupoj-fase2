@@ -1,23 +1,37 @@
 import 'dart:io';
+import 'package:need_help/models/tutorial_item.dart';
 import 'package:path/path.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sqflite/sqflite.dart' as sql;
+import 'package:sqflite/sqflite.dart';
 
+///Classe helper para ações com o DB
 class DatabaseHelper {
 
-  static final table = 'items';
+  //Nomes de tabela e colunas
+  static final table = 'tutorialItems';
   static final columnId = 'id';
   static final columnNome = 'nome';
   static final columnMateriais = 'materiais';
   static final columnPassos = 'passos';
-  static final columnUrlFoto = 'urlfoto';
+  static final columnUrlFoto = 'urlFoto';
   static final columnCategoria = 'categoria';
   static final columnCreatedAt = 'createdAt';
 
-  static Future<void> createTables(sql.Database database) async {
+  ///Método de abertura e criação do banco
+  static Future<Database> db() async {
+    return openDatabase(
+      join(await getDatabasesPath(), 'needhelpdatabase.db'),
+      version: 1,
+      onCreate: (Database database, int version) async {
+        return await createTables(database);
+      },
+    );
+  }
+
+  ///Criação de tabela
+  static Future<void> createTables(Database database) async {
     await database.execute("""CREATE TABLE $table(
-        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-        $columnId INTEGER PRIMARY KEY,
+        $columnId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         $columnNome TEXT NOT NULL,
         $columnMateriais TEXT NOT NULL,
         $columnPassos TEXT NOT NULL,
@@ -28,73 +42,77 @@ class DatabaseHelper {
       """);
   }
 
-  static Future<sql.Database> db() async {
-    return sql.openDatabase(
-      'NeedHelpDB.db',
-      version: 1,
-      onCreate: (sql.Database database, int version) async {
-        await createTables(database);
-      },
-    );
-  }
-
-  static Future<int> createItem(String nome,
-                                String materiais,
-                                String passos,
-                                String? urlfoto,
-                                String? categoria) async {
+  ///Criação de item
+  static Future<int?> createItem(TutorialItem tutorialItem) async {
     final db = await DatabaseHelper.db();
 
-    final data = {
-      DatabaseHelper.columnNome: nome,
-      DatabaseHelper.columnMateriais: materiais,
-      DatabaseHelper.columnPassos: passos,
-      DatabaseHelper.columnUrlFoto: urlfoto,
-      DatabaseHelper.columnCategoria: categoria
-    };
+    await db.insert(DatabaseHelper.table, tutorialItem.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
 
-    final id = await db.insert(DatabaseHelper.table, data,
-        conflictAlgorithm: sql.ConflictAlgorithm.replace);
-    return id;
+    //TODO Retirar prints
+    print(tutorialItem.toString());
+
+    return tutorialItem.id;
   }
 
-  // Read all items (journals)
-  static Future<List<Map<String, dynamic>>> getItems() async {
+  ///Recuperação de itens da tabela
+  static Future<List<TutorialItem>> getItems() async {
+    final data = await _getItemsDB();
+
+    List<Map<String, dynamic>> _items = [];
+    _items = data;
+
+    return List.generate(_items.length, (index) {
+      return TutorialItem(
+          id: _items[index]['id'],
+          nome: _items[index]['nome'],
+          materiais: _items[index]['materiais'],
+          passos: _items[index]['passos'],
+          urlFoto: _items[index]['urlFoto'],
+          categoria: _items[index]['categoria']);
+    });
+  }
+
+  ///Método privado intermediário para recuperação de itens
+  static Future<List<Map<String, dynamic>>> _getItemsDB() async {
     final db = await DatabaseHelper.db();
     return db.query(DatabaseHelper.table, orderBy: DatabaseHelper.columnId);
   }
 
-  // Read a single item by id
-  // The app doesn't use this method but I put here in case you want to see it
-  static Future<List<Map<String, dynamic>>> getItem(int id) async {
+  ///Recuperação de um item específico por ID
+  static Future<List<TutorialItem>> getItem(int id) async {
+    final data = await _getItemDB(id);
+
+    List<Map<String, dynamic>> _item = [];
+    _item = data;
+
+    return List.generate(_item.length, (index) {
+      return TutorialItem(
+          id: _item[index]['id'],
+          nome: _item[index]['nome'],
+          materiais: _item[index]['materiais'],
+          passos: _item[index]['passos'],
+          urlFoto: _item[index]['urlFoto'],
+          categoria: _item[index]['categoria']);
+    });
+  }
+
+  ///Método privado intermediário para recuperação de itens específicos por ID
+  static Future<List<Map<String, dynamic>>> _getItemDB(int id) async {
     final db = await DatabaseHelper.db();
     return db.query(DatabaseHelper.table, where: "id = ?", whereArgs: [id], limit: 1);
   }
 
-  // Update an item by id
-  static Future<int> updateItem(int id,
-                                String nome,
-                                String materiais,
-                                String passos,
-                                String? urlfoto,
-                                String? categoria) async {
+  ///Modificação de registro
+  static Future<int> updateItem(TutorialItem tutorialItem) async {
     final db = await DatabaseHelper.db();
 
-    final data = {
-      DatabaseHelper.columnNome: nome,
-      DatabaseHelper.columnMateriais: materiais,
-      DatabaseHelper.columnPassos: passos,
-      DatabaseHelper.columnUrlFoto: urlfoto,
-      DatabaseHelper.columnCategoria: categoria,
-      DatabaseHelper.columnCreatedAt: DateTime.now().toString()
-    };
-
-    final result =
-    await db.update(DatabaseHelper.table, data, where: "id = ?", whereArgs: [id]);
+    final result = await db.update(DatabaseHelper.table, tutorialItem.toMap(),
+        where: "id = ?", whereArgs: [tutorialItem.id]);
     return result;
   }
 
-  // Delete
+  ///Delete de registro
   static Future<void> deleteItem(int id) async {
     final db = await DatabaseHelper.db();
     try {
