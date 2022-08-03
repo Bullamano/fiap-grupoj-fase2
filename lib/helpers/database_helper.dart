@@ -49,9 +49,6 @@ class DatabaseHelper {
     await db.insert(DatabaseHelper.table, tutorialItem.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
 
-    //TODO Retirar prints
-    print(tutorialItem.toString());
-
     return tutorialItem.id;
   }
 
