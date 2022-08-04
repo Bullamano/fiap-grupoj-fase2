@@ -9,4 +9,4 @@ Color kBackgroundColor = const Color(0xFFFFFFFF);
 Color kAppThemeColor = const Color(0xFF55C272);
 
 ///Cor de acentuação da aplicação
-Color kAppAccentColor = const Color(0xFFC7DB44);
+Color kAppAccentColor = const Color(0xFFA6DB44);

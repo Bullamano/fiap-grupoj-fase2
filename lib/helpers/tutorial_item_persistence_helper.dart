@@ -43,10 +43,25 @@ class TutorialItemPersistenceHelper {
     }
 
     addTutorialItem(kLasagnaTutorialItem);
-
     addTutorialItem(kAmarrarSapatoTutorialItem);
-
     addTutorialItem(kAbrirOlhosTutorialItem);
+    addTutorialItem(kVoarTutorialItem);
+    addTutorialItem(kTutorialTutorialItem);
+    addTutorialItem(kPiTutorialItem);
+    addTutorialItem(kRespirarTutorialItem);
+    addTutorialItem(kLoteriaTutorialItem);
+    addTutorialItem(kRicoTutorialItem);
+    addTutorialItem(kLife1TutorialItem);
+    addTutorialItem(kLife2TutorialItem);
+    addTutorialItem(kLife3TutorialItem);
+    addTutorialItem(kLife4TutorialItem);
+    addTutorialItem(kLife5TutorialItem);
+    addTutorialItem(kLife6TutorialItem);
+    addTutorialItem(kLife7TutorialItem);
+    addTutorialItem(kLife8TutorialItem);
+    addTutorialItem(kLife9TutorialItem);
+    addTutorialItem(kLife10TutorialItem);
+    addTutorialItem(kLife11TutorialItem);
   }
 
   ///Método para atualizar uma entrada no banco através de suas propriedades
