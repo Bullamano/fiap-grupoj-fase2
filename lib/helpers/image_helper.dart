@@ -6,7 +6,6 @@ import 'package:need_help/models/tutorial_item.dart';
 ///Classe para processamento de imagens a serem adicionadas
 ///aos itens de tutorial
 class ImageHelper {
-
   ///Método de checagem para uma URL passada em um item de tutorial
   static String checkImageUrl(TutorialItem tutorialItem) {
     if (tutorialItem.urlFoto != null && tutorialItem.urlFoto!.isNotEmpty) {
@@ -24,9 +23,7 @@ class ImageHelper {
       return CircleAvatar(
         radius: kCircleAvatarRadius,
         backgroundColor: const Color(0x00FFFFFF),
-        child: ClipOval(
-          child: Image.network(imageUrl),
-        ),
+        backgroundImage: NetworkImage(imageUrl),
       );
     }
 
