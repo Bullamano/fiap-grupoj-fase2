@@ -21,13 +21,16 @@ class HomeScreen extends StatefulWidget {
 
 ///Classe regente da tela Home
 class _HomeScreenState extends State<HomeScreen> {
-  ///Itens completos do banco a serem mostrados
-  ///na tela
+  ///Itens completos do banco a serem mostrados na tela
   List<TutorialItem> _tutorialItems = [];
 
+  ///Categorias para filtro aparecendo no topo da tela
   List<String> _categories = [];
 
-  //Função para denotar carregamento da aplicação
+  var _filteredBy = '';
+
+  //Booleano para denotar carregamento da aplicação
+  //Atualmente, não utilizado, mas pode ser implementado no futuro
   //bool _isLoading = true;
 
   ///Método para recuperar os itens do banco (chamar sempre
@@ -50,8 +53,6 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _tutorialItems = data;
 
-      //_isLoading = false;
-
       _tutorialItems.forEach((item) {
         if (kDebugMode) {
           print(item);
@@ -68,24 +69,61 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  ///Método para recuperar os itens  de uma categoria específica
+  ///do banco e mostrar apenas eles na tela
+  void _filterItems(String category) async {
+    if (kDebugMode) {
+      print('Filtering items');
+    }
+
+    //Prevenção de categorias nulas
+    if (category == _filteredBy) {
+      _refreshItems();
+      _filteredBy = '';
+      return;
+    }
+
+    _tutorialItems = [];
+
+    var data = await DatabaseHelper.getByCategory(category);
+
+    if (data.isEmpty) {
+      _refreshItems();
+    } else {
+      setState(() {
+        _tutorialItems = data;
+
+        _filteredBy = category;
+
+        if (kDebugMode) {
+          print(_tutorialItems);
+        }
+      });
+    }
+  }
+
   ///Método para inserir um item novo no banco
-  Future<void> _addItem(String nome,
-      String materiais,
-      String passos,
-      String? urlFoto,
-      String? categoria,) async {
+  Future<void> _addItem(
+    String nome,
+    String materiais,
+    String passos,
+    String? urlFoto,
+    String? categoria,
+  ) async {
     TutorialItemPersistenceHelper.addItem(
         nome, materiais, passos, urlFoto, categoria);
     _refreshItems();
   }
 
   ///Método para atualizar uma entrada no banco
-  Future<void> _updateItem(int id,
-      String nome,
-      String materiais,
-      String passos,
-      String? urlFoto,
-      String? categoria,) async {
+  Future<void> _updateItem(
+    int id,
+    String nome,
+    String materiais,
+    String passos,
+    String? urlFoto,
+    String? categoria,
+  ) async {
     TutorialItemPersistenceHelper.updateItem(
         id, nome, materiais, passos, urlFoto, categoria);
     _refreshItems();
@@ -100,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _refreshItems();
   }
 
-  //TODO retirar essa função
+  //TODO retirar essa função após testes
   //Esta função só existe pare testes
   void _deleteAllItems() async {
     if (kDebugMode) {
@@ -179,19 +217,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisSpacing: 1,
                   ),
                   itemBuilder: (context, index) {
-                    if(_categories.isNotEmpty){
+                    if (_categories.isNotEmpty) {
                       final category = _categories[index];
                       return GridTile(
                           child: CategoryButton(
-                            text: category,
-                            onPressed: () {
-                              //TODO Filtrar a lista por categoria
-                            },
-                          )
-                      );
-                    }
-                    else{
-                      //TODO Preencher melhor a tela quando a lista for vazia (contingência para problema do GridView.builder com listas vazias)
+                        text: category,
+                        onPressed: () {
+                          _filterItems(category);
+                        },
+                      ));
+                    } else {
+                      //TODO: Contingência para problema do GridView.builder com listas vazias
                       return Container();
                     }
                   },
@@ -207,24 +243,90 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: GridView.builder(
                     scrollDirection: Axis.vertical,
                     gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
                     ),
                     itemCount: _tutorialItems.length,
                     itemBuilder: (context, index) {
-                      if(_tutorialItems.isNotEmpty){
+                      if (_tutorialItems.isNotEmpty) {
                         final item = _tutorialItems[index];
                         return Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Column(
                             children: [
                               //ImageHelper.circleAvatarBasedOnImage(item),
-                              CircularTutorialButton(innerWidget: ImageHelper
-                                  .circleAvatarBasedOnImage(item),
-                                  onPressed: (){
-                                    //TODO chamar tela de cada tutorial daqui
+                              CircularTutorialButton(
+                                  innerWidget:
+                                      ImageHelper.circleAvatarBasedOnImage(
+                                          item),
+                                  onPressed: () {
+                                    //TODO chamar tela de cada tutorial daqui (por enquanto AlertDialog provisório)
+                                    //TELA DE INFO PROVISÓRIA: COMEÇO
+                                    showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        context: context,
+                                        builder: (_) => Container(
+                                              decoration: const BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(16),
+                                                    topRight:
+                                                        Radius.circular(16),
+                                                  )),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(16),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    InkWell(
+                                                        onTap: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: const Icon(
+                                                            Icons.close)),
+                                                    const SizedBox(height: 16),
+                                                    const Text(
+                                                      'Materiais',
+                                                      style: TextStyle(
+                                                        fontSize: 24,
+                                                        fontWeight: FontWeight.bold
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      item.materiais,
+                                                      style: const TextStyle(
+                                                        fontSize: 18,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 12),
+                                                    const Text(
+                                                      'Passos',
+                                                      style: TextStyle(
+                                                          fontSize: 24,
+                                                          fontWeight: FontWeight.bold
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      item.passos,
+                                                      style: const TextStyle(
+                                                        fontSize: 18,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 32),
+                                                  ],
+                                                ),
+                                              ),
+                                            ));
+                                    //TELA DE INFO PROVISÓRIA: FIM
                                   }),
                               const SizedBox(height: 5),
                               Text(
@@ -239,9 +341,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                         );
-                      }
-                      else{
-                        //TODO Preencher melhor a tela quando a lista for vazia (contingência para problema do GridView.builder com listas vazias)
+                      } else {
+                        //TODO: Contingência para problema do GridView.builder com listas vazias
                         return Container();
                       }
                     },
