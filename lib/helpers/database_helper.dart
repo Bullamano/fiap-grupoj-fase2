@@ -3,6 +3,7 @@ import 'package:need_help/models/tutorial_item.dart';
 import 'package:path/path.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
+import '../models/tutorial_item.dart';
 
 ///Classe helper para ações com o DB
 class DatabaseHelper {
@@ -98,6 +99,30 @@ class DatabaseHelper {
   static Future<List<Map<String, dynamic>>> _getItemDB(int id) async {
     final db = await DatabaseHelper.db();
     return db.query(DatabaseHelper.table, where: "id = ?", whereArgs: [id], limit: 1);
+  }
+
+  ///Recuperação de itens por um valor de categoria
+  static Future<List<TutorialItem>> getByCategory(String category) async {
+    final data = await _getByCategory(category);
+
+    List<Map<String, dynamic>> _items = [];
+    _items = data;
+
+    return List.generate(_items.length, (index) {
+      return TutorialItem(
+          id: _items[index]['id'],
+          nome: _items[index]['nome'],
+          materiais: _items[index]['materiais'],
+          passos: _items[index]['passos'],
+          urlFoto: _items[index]['urlFoto'],
+          categoria: _items[index]['categoria']);
+    });
+  }
+
+  ///Método privado intermediário para recuperação de itens por sua categoria
+  static Future<List<Map<String, dynamic>>> _getByCategory(String category) async {
+    final db = await DatabaseHelper.db();
+    return db.query(DatabaseHelper.table, where: "categoria = ?", whereArgs: [category]);
   }
 
   ///Modificação de registro
