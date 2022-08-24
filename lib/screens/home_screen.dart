@@ -7,6 +7,7 @@ import 'package:need_help/design_system/widgets/circular_tutorial_button.dart';
 import 'package:need_help/helpers/image_helper.dart';
 import 'package:need_help/helpers/tutorial_item_persistence_helper.dart';
 import 'package:need_help/models/tutorial_item.dart';
+import 'package:need_help/screens/tutorial_screen.dart';
 import '../helpers/database_helper.dart';
 
 ///StatefulWidget da tela Home
@@ -103,27 +104,23 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   ///Método para inserir um item novo no banco
-  Future<void> _addItem(
-    String nome,
-    String materiais,
-    String passos,
-    String? urlFoto,
-    String? categoria,
-  ) async {
+  Future<void> _addItem(String nome,
+      String materiais,
+      String passos,
+      String? urlFoto,
+      String? categoria,) async {
     TutorialItemPersistenceHelper.addItem(
         nome, materiais, passos, urlFoto, categoria);
     _refreshItems();
   }
 
   ///Método para atualizar uma entrada no banco
-  Future<void> _updateItem(
-    int id,
-    String nome,
-    String materiais,
-    String passos,
-    String? urlFoto,
-    String? categoria,
-  ) async {
+  Future<void> _updateItem(int id,
+      String nome,
+      String materiais,
+      String passos,
+      String? urlFoto,
+      String? categoria,) async {
     TutorialItemPersistenceHelper.updateItem(
         id, nome, materiais, passos, urlFoto, categoria);
     _refreshItems();
@@ -190,7 +187,18 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: kAppAccentColor,
         onPressed: () {
-          _deleteAllItems();
+          // _deleteAllItems();
+           Navigator.pushNamed(
+               context,
+               TutorialScreen.id,
+               arguments: TutorialScreenArguments(
+                 nome: 'package',
+                 materiais: 'package',
+                 passos: 'package',
+                 urlFoto: 'package',
+                 categoria: 'package',
+               )
+           );
         },
         child: const Icon(Icons.delete),
       ),
@@ -221,11 +229,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       final category = _categories[index];
                       return GridTile(
                           child: CategoryButton(
-                        text: category,
-                        onPressed: () {
-                          _filterItems(category);
-                        },
-                      ));
+                            text: category,
+                            onPressed: () {
+                              _filterItems(category);
+                            },
+                          ));
                     } else {
                       //TODO: Contingência para problema do GridView.builder com listas vazias
                       return Container();
@@ -243,7 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: GridView.builder(
                     scrollDirection: Axis.vertical,
                     gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
+                    const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
@@ -259,32 +267,33 @@ class _HomeScreenState extends State<HomeScreen> {
                               //ImageHelper.circleAvatarBasedOnImage(item),
                               CircularTutorialButton(
                                   innerWidget:
-                                      ImageHelper.circleAvatarBasedOnImage(
-                                          item),
+                                  ImageHelper.circleAvatarBasedOnImage(
+                                      item),
                                   onPressed: () {
                                     //TODO chamar tela de cada tutorial daqui (por enquanto AlertDialog provisório)
                                     //TELA DE INFO PROVISÓRIA: COMEÇO
                                     showModalBottomSheet(
                                         isScrollControlled: true,
                                         context: context,
-                                        builder: (_) => Container(
+                                        builder: (_) =>
+                                            Container(
                                               decoration: const BoxDecoration(
                                                   color: Colors.white,
                                                   borderRadius:
-                                                      BorderRadius.only(
+                                                  BorderRadius.only(
                                                     topLeft:
-                                                        Radius.circular(16),
+                                                    Radius.circular(16),
                                                     topRight:
-                                                        Radius.circular(16),
+                                                    Radius.circular(16),
                                                   )),
                                               child: Padding(
                                                 padding:
-                                                    const EdgeInsets.all(16),
+                                                const EdgeInsets.all(16),
                                                 child: Column(
                                                   mainAxisSize:
-                                                      MainAxisSize.min,
+                                                  MainAxisSize.min,
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                                   children: [
                                                     InkWell(
                                                         onTap: () {
@@ -297,8 +306,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     const Text(
                                                       'Materiais',
                                                       style: TextStyle(
-                                                        fontSize: 24,
-                                                        fontWeight: FontWeight.bold
+                                                          fontSize: 24,
+                                                          fontWeight: FontWeight
+                                                              .bold
                                                       ),
                                                     ),
                                                     Text(
@@ -312,7 +322,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       'Passos',
                                                       style: TextStyle(
                                                           fontSize: 24,
-                                                          fontWeight: FontWeight.bold
+                                                          fontWeight: FontWeight
+                                                              .bold
                                                       ),
                                                     ),
                                                     Text(

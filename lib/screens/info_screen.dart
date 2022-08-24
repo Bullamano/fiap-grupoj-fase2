@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:need_help/design_system/strings.dart';
+import 'package:need_help/design_system/widgets/EditableTextFild_NeedHelp.dart';
 import 'package:need_help/design_system/widgets/ListTitle_NeedHelp.dart';
+import 'package:need_help/design_system/widgets/SaveButton_NeedHelp.dart';
 
 ///Argumentos para as telas de tutoriais
 class TutorialScreenArguments {
@@ -47,8 +49,8 @@ class TutorialScreen extends StatelessWidget {
             children: [
               Container(
                 child:
-                  Image.asset('assets/images/questionmark.jpg',
-                  ),
+                Image.asset('assets/images/questionmark.jpg',
+                ),
                 // Image(
                 //   image:NetworkImage(arguments?.urlFoto ?? kQuestionMarkUrl),
                 // )
@@ -67,28 +69,21 @@ class TutorialScreen extends StatelessWidget {
               ListTitle_NeedHelp(
                 text: 'Materiais:',
               ),
-              Container(
-                child: Text('Lista Materiais lalala'),
-              ),
-              // Container(
-              //   child:
-              //   Text(
-              //     arguments?.materiais ?? 'Materiais indisponíveis'
-              //   ),
-              // ),
+              MyCustomForm(),
               SizedBox(height: 20,),
               ListTitle_NeedHelp(
                 text: 'Passo a Passo:',
               ),
-              Container(
-                child: Text('Lista Passo a Passo'),
+              //TODO Allan, sobre essa parte, ta aparecendo uma bagulho estranho na hora de digitar q tbm não to sabendo lidar
+              MyCustomForm(),
+              //TODO Allan, sobre esse botão, não to sabendo como centralizar o "Salvar"
+              SaveRoundedButton(
+                text: 'Salvar',
+                onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Salvo com sucesso'),
+                    )),
+                //print('Salvo com sucesso'),
               ),
-              // Container(
-              //   child:
-              //   Text(
-              //     arguments?.passos?? 'Passo a passo indisponível'
-              //   ),
-              // ),
               //TODO: Parte de dentro da tela recebendo as variáveis
             ],
           ),
