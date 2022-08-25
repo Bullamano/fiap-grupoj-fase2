@@ -103,7 +103,10 @@ class TutorialScreen extends StatelessWidget {
                 ),
                 Container(
                   child:
-                      Text(arguments?.materiais ?? 'Materiais indisponíveis'),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                        child: Text(arguments?.materiais ?? 'Materiais indisponíveis'),
+                      ),
                 ),
                 const SizedBox(height: 20),
                 const CustomListTitle(
@@ -111,7 +114,10 @@ class TutorialScreen extends StatelessWidget {
                 ),
                 Container(
                   child:
-                      Text(arguments?.passos ?? 'Passo a passo indisponível'),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                        child: Text(arguments?.passos ?? 'Passo a passo indisponível'),
+                      ),
                 ),
               ],
             ),
