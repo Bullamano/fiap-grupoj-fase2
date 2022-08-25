@@ -1,5 +1,6 @@
 // main.dart
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:need_help/screens/home_screen.dart';
 import 'package:need_help/screens/info_screen.dart';
 import 'package:need_help/screens/tutorial_screen.dart';
@@ -15,6 +16,10 @@ class MyNeedHelpApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitUp
+    ]);
     return MaterialApp(
       title: 'Need Help App',
       theme: ThemeData(
