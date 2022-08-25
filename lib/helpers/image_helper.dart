@@ -15,6 +15,15 @@ class ImageHelper {
     return kQuestionMarkUrl;
   }
 
+  ///Método de checagem de URL de imagem com base em String simples
+  static String checkUrlForImage(String? url) {
+    if (url != null && url.isNotEmpty) {
+      return url;
+    }
+
+    return kQuestionMarkUrl;
+  }
+
   ///Método de formatação para o CircleAvatar de um item de tutorial
   static Widget circleAvatarBasedOnImage(TutorialItem tutorialItem) {
     final imageUrl = checkImageUrl(tutorialItem);

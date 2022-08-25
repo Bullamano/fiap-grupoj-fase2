@@ -88,7 +88,7 @@ TutorialItem kLife1TutorialItem = const TutorialItem(
   nome: 'Life advice 1',
   materiais: 'Nada',
   passos: 'Na real, esse aqui é só pra encher espaço, vai pro próximo.',
-  urlFoto: 'https://pbs.twimg.com/profile_images/1541920820204797952/RaMNiqHx_400x400.jpg',
+  urlFoto: 'https://i.kym-cdn.com/entries/icons/mobile/000/022/134/elmo.jpg',
   categoria: 'Life advice',
 );
 
@@ -106,7 +106,7 @@ TutorialItem kLife3TutorialItem = const TutorialItem(
   nome: 'Life advice 3',
   materiais: 'Nada',
   passos: 'Bingo, acertou, esse também é',
-  urlFoto: 'https://pbs.twimg.com/profile_images/1541920820204797952/RaMNiqHx_400x400.jpg',
+  urlFoto: 'https://i.kym-cdn.com/entries/icons/mobile/000/022/134/elmo.jpg',
   categoria: 'Life advice',
 );
 
@@ -124,7 +124,7 @@ TutorialItem kLife5TutorialItem = const TutorialItem(
   nome: 'Life advice 5',
   materiais: 'Nada',
   passos: 'Yup... também...',
-  urlFoto: 'https://pbs.twimg.com/profile_images/1541920820204797952/RaMNiqHx_400x400.jpg',
+  urlFoto: 'https://i.kym-cdn.com/entries/icons/mobile/000/022/134/elmo.jpg',
   categoria: 'Life advice',
 );
 
@@ -142,7 +142,7 @@ TutorialItem kLife7TutorialItem = const TutorialItem(
   nome: 'Life advice 7',
   materiais: 'Nada',
   passos: 'Yup... também...',
-  urlFoto: 'https://pbs.twimg.com/profile_images/1541920820204797952/RaMNiqHx_400x400.jpg',
+  urlFoto: 'https://i.kym-cdn.com/entries/icons/mobile/000/022/134/elmo.jpg',
   categoria: 'Life advice',
 );
 
@@ -160,7 +160,7 @@ TutorialItem kLife9TutorialItem = const TutorialItem(
   nome: 'Life advice 9',
   materiais: 'Nada',
   passos: 'Yup... também...',
-  urlFoto: 'https://pbs.twimg.com/profile_images/1541920820204797952/RaMNiqHx_400x400.jpg',
+  urlFoto: 'https://i.kym-cdn.com/entries/icons/mobile/000/022/134/elmo.jpg',
   categoria: 'Life advice',
 );
 
@@ -178,7 +178,7 @@ TutorialItem kLife11TutorialItem = const TutorialItem(
   nome: 'Life advice 11',
   materiais: 'Nada',
   passos: 'AHÁ! Você ganhou um prêmio de [porcaria nenhuma] por ter chegado até aqui! Parabéns!',
-  urlFoto: 'https://pbs.twimg.com/profile_images/1541920820204797952/RaMNiqHx_400x400.jpg',
+  urlFoto: 'https://i.kym-cdn.com/entries/icons/mobile/000/022/134/elmo.jpg',
   categoria: 'Life advice',
 );
 
