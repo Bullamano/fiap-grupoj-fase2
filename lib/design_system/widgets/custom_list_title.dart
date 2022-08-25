@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class ListTitle_NeedHelp extends StatelessWidget{
+class CustomListTitle extends StatelessWidget{
 
-  const ListTitle_NeedHelp({
+  const CustomListTitle({
     required this.text,});
 
   final String text;
@@ -10,7 +10,7 @@ class ListTitle_NeedHelp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.lightGreen,
+      color: Colors.transparent,
       child: ListTile(
         title: Text(text,
           style: TextStyle(fontSize: 30)

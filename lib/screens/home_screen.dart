@@ -7,6 +7,7 @@ import 'package:need_help/design_system/widgets/circular_tutorial_button.dart';
 import 'package:need_help/helpers/image_helper.dart';
 import 'package:need_help/helpers/tutorial_item_persistence_helper.dart';
 import 'package:need_help/models/tutorial_item.dart';
+import 'package:need_help/screens/info_screen.dart';
 import 'package:need_help/screens/tutorial_screen.dart';
 import '../helpers/database_helper.dart';
 
@@ -103,40 +104,9 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  ///Método para inserir um item novo no banco
-  Future<void> _addItem(String nome,
-      String materiais,
-      String passos,
-      String? urlFoto,
-      String? categoria,) async {
-    TutorialItemPersistenceHelper.addItem(
-        nome, materiais, passos, urlFoto, categoria);
-    _refreshItems();
-  }
-
-  ///Método para atualizar uma entrada no banco
-  Future<void> _updateItem(int id,
-      String nome,
-      String materiais,
-      String passos,
-      String? urlFoto,
-      String? categoria,) async {
-    TutorialItemPersistenceHelper.updateItem(
-        id, nome, materiais, passos, urlFoto, categoria);
-    _refreshItems();
-  }
-
-  ///Método para deletar uma entrada do banco
-  void _deleteItem(int id) async {
-    TutorialItemPersistenceHelper.deleteItem(id);
-    // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-    //   content: Text('Successfully deleted!'),
-    // ));
-    _refreshItems();
-  }
-
-  //TODO retirar essa função após testes
-  //Esta função só existe pare testes
+  ///Função para deletar todos os itens e recriá-los.
+  ///Esta função é puramente para teste da aplicação e
+  ///se encontra "escondida" na aplicação.
   void _deleteAllItems() async {
     if (kDebugMode) {
       print('Deleting all items');
@@ -173,40 +143,27 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         backgroundColor: kAppThemeColor,
-        title: Text(
-          kAppName,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+        title: InkWell(
+          onDoubleTap: () {
+            //Easter Egg para reset de configurações (para testes)
+            _deleteAllItems();
+            _refreshItems();
+          },
+          child: Text(
+            kAppName,
+            style: TextStyle(
+              color: kTitleColor,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-      ),
-
-      //O botão abaixo está aqui apenas para testes
-      //TODO Retirar o botão abaixo ao final dos testes
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: kAppAccentColor,
-        onPressed: () {
-          // _deleteAllItems();
-           Navigator.pushNamed(
-               context,
-               TutorialScreen.id,
-               arguments: TutorialScreenArguments(
-                 nome: 'package',
-                 materiais: 'package',
-                 passos: 'package',
-                 urlFoto: 'package',
-                 categoria: 'package',
-               )
-           );
-        },
-        child: const Icon(Icons.delete),
       ),
 
       body: SafeArea(
         child: Column(
           children: [
-            const SizedBox(height: 16),
+            const SizedBox(height: 5),
             SizedBox(
               width: double.infinity,
               height: 50,
@@ -229,29 +186,29 @@ class _HomeScreenState extends State<HomeScreen> {
                       final category = _categories[index];
                       return GridTile(
                           child: CategoryButton(
-                            text: category,
-                            onPressed: () {
-                              _filterItems(category);
-                            },
-                          ));
+                        text: category,
+                        onPressed: () {
+                          _filterItems(category);
+                        },
+                      ));
                     } else {
-                      //TODO: Contingência para problema do GridView.builder com listas vazias
+                      //Contingência para problema do GridView.builder com listas vazias
                       return Container();
                     }
                   },
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 5),
             Expanded(
               child: SizedBox(
                 height: double.infinity,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                   child: GridView.builder(
                     scrollDirection: Axis.vertical,
                     gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
@@ -264,80 +221,31 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Column(
                             children: [
-                              //ImageHelper.circleAvatarBasedOnImage(item),
                               CircularTutorialButton(
                                   innerWidget:
-                                  ImageHelper.circleAvatarBasedOnImage(
-                                      item),
-                                  onPressed: () {
-                                    //TODO chamar tela de cada tutorial daqui (por enquanto AlertDialog provisório)
-                                    //TELA DE INFO PROVISÓRIA: COMEÇO
-                                    showModalBottomSheet(
-                                        isScrollControlled: true,
-                                        context: context,
-                                        builder: (_) =>
-                                            Container(
-                                              decoration: const BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                  BorderRadius.only(
-                                                    topLeft:
-                                                    Radius.circular(16),
-                                                    topRight:
-                                                    Radius.circular(16),
-                                                  )),
-                                              child: Padding(
-                                                padding:
-                                                const EdgeInsets.all(16),
-                                                child: Column(
-                                                  mainAxisSize:
-                                                  MainAxisSize.min,
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    InkWell(
-                                                        onTap: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child: const Icon(
-                                                            Icons.close)),
-                                                    const SizedBox(height: 16),
-                                                    const Text(
-                                                      'Materiais',
-                                                      style: TextStyle(
-                                                          fontSize: 24,
-                                                          fontWeight: FontWeight
-                                                              .bold
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      item.materiais,
-                                                      style: const TextStyle(
-                                                        fontSize: 18,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 12),
-                                                    const Text(
-                                                      'Passos',
-                                                      style: TextStyle(
-                                                          fontSize: 24,
-                                                          fontWeight: FontWeight
-                                                              .bold
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      item.passos,
-                                                      style: const TextStyle(
-                                                        fontSize: 18,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 32),
-                                                  ],
-                                                ),
-                                              ),
-                                            ));
-                                    //TELA DE INFO PROVISÓRIA: FIM
+                                      ImageHelper.circleAvatarBasedOnImage(
+                                          item),
+                                  onPressed: () async {
+                                    //Chamada da tela de tutorial
+                                    TutorialItem chosenItem;
+                                    chosenItem =
+                                        await TutorialItemPersistenceHelper
+                                            .getTutorialItem(item.id as int);
+
+                                    await Navigator.pushNamed(
+                                      context,
+                                      TutorialScreen.id,
+                                      arguments: TutorialScreenArguments(
+                                        id: chosenItem.id,
+                                        nome: chosenItem.nome,
+                                        materiais: chosenItem.materiais,
+                                        passos: chosenItem.passos,
+                                        urlFoto: chosenItem.urlFoto ?? '',
+                                        categoria: chosenItem.categoria ?? '',
+                                      ),
+                                    );
+
+                                    _refreshItems();
                                   }),
                               const SizedBox(height: 5),
                               Text(
@@ -353,10 +261,33 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                       } else {
-                        //TODO: Contingência para problema do GridView.builder com listas vazias
+                        //Contingência para problema do GridView.builder com listas vazias
                         return Container();
                       }
                     },
+                  ),
+                ),
+              ),
+            ),
+            Material(
+              color: kAppAccentColor,
+              borderRadius: BorderRadius.circular(0),
+              elevation: 2,
+              child: ListTile(
+                onTap: () async {
+                  await Navigator.pushNamed(
+                    context,
+                    InfoScreen.id,
+                  );
+
+                  _refreshItems();
+                },
+                title: Text(
+                  'Adicionar novo procedimento',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: kAppTextColor,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),

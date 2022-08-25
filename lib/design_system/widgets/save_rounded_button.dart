@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:need_help/design_system/colors.dart';
 
 class SaveRoundedButton extends StatelessWidget {
   const SaveRoundedButton({
@@ -12,15 +13,16 @@ class SaveRoundedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.white,
+      color: kAppAccentColor,
       borderRadius: BorderRadius.circular(1000),
-      elevation: 8,
+      elevation: 2,
       child: ListTile(
         onTap: onPressed,
         title: Text(
           text,
+          textAlign: TextAlign.center,
           style: TextStyle(
-            color: Colors.lightGreen,
+            color: kAppTextColor,
             fontWeight: FontWeight.bold,
           ),
         ),
