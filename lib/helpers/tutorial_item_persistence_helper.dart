@@ -64,6 +64,13 @@ class TutorialItemPersistenceHelper {
     addTutorialItem(kLife11TutorialItem);
   }
 
+  ///Método para retornar um TutorialItem com base em um ID
+  static Future<TutorialItem> getTutorialItem(int id) async {
+    List<TutorialItem> tutorialItemQuery = await DatabaseHelper.getItem(id);
+
+    return tutorialItemQuery[0];
+  }
+
   ///Método para atualizar uma entrada no banco através de suas propriedades
   static Future<void> updateItem(
     int id,
