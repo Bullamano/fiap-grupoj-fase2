@@ -1,7 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:need_help/design_system/colors.dart';
-import 'package:need_help/design_system/strings.dart';
 import 'package:need_help/design_system/widgets/editable_text_field.dart';
 import 'package:need_help/design_system/widgets/custom_list_title.dart';
 import 'package:need_help/design_system/widgets/save_rounded_button.dart';
@@ -36,7 +35,13 @@ class InfoScreen extends StatelessWidget {
       TutorialItemPersistenceHelper.addItem(
           nome, materiais, passos, urlFoto, categoria);
       Navigator.pop(context);
-    } catch (Exception) {}
+    } catch (ex) {
+      if (kDebugMode) {
+        print('Exception: $ex');
+      }
+
+      throw Exception(ex);
+    }
   }
 
   @override
@@ -102,28 +107,28 @@ class InfoScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
                 SaveRoundedButton(
-                    text: 'Salvar',
-                    onPressed: () async {
-                      try {
-                        _addItem(
-                            tituloController.text,
-                            materiaisController.text,
-                            passosController.text,
-                            urlController.text,
-                            categoriaController.text,
-                            context);
+                  text: 'Salvar',
+                  onPressed: () async {
+                    try {
+                      _addItem(
+                          tituloController.text,
+                          materiaisController.text,
+                          passosController.text,
+                          urlController.text,
+                          categoriaController.text,
+                          context);
 
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                          content: Text('Salvo com sucesso!'),
-                        ));
-                      } catch (Exception) {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                          content: Text('Houve um erro salvar o procedimento!'),
-                        ));
-                      }
-                    }),
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Salvo com sucesso!'),
+                      ));
+                    }
+                    catch (Exception) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Houve um erro salvar o procedimento!'),
+                      ));
+                    }
+                  },
+                ),
               ],
             ),
           ),
