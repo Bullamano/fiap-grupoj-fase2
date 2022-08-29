@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:need_help/design_system/strings.dart';
 import 'package:need_help/design_system/widgets/custom_list_title.dart';
-import 'package:need_help/screens/home_screen.dart';
-
 import '../design_system/colors.dart';
 import '../helpers/image_helper.dart';
 import '../helpers/tutorial_item_persistence_helper.dart';
@@ -58,7 +53,7 @@ class TutorialScreen extends StatelessWidget {
           style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            overflow: TextOverflow.visible,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ),
