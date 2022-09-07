@@ -33,18 +33,21 @@ class _EditableTextFieldState extends State<EditableTextField> {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          child: TextFormField(
-            controller: widget.textController,
-            style: TextStyle(color: kAppTextColor),
-            cursorColor: kAppAccentColor,
-            decoration: InputDecoration(
-              border: const UnderlineInputBorder(),
-              enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: kAppThemeColor)),
-              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: kAppThemeColor)),
-              helperText: widget.tutorialHelperText,
-              helperStyle: TextStyle(color: kAppHelperTextColor),
-              labelText: widget.tutorialLabelText,
-              labelStyle: TextStyle(color: kAppThemeColor)
+          child: Material(
+            color: Colors.transparent,
+            child: TextFormField(
+              controller: widget.textController,
+              style: TextStyle(color: kAppTextColor),
+              cursorColor: kAppAccentColor,
+              decoration: InputDecoration(
+                border: const UnderlineInputBorder(),
+                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: kAppThemeColor)),
+                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: kAppThemeColor)),
+                helperText: widget.tutorialHelperText,
+                helperStyle: TextStyle(color: kAppHelperTextColor),
+                labelText: widget.tutorialLabelText,
+                labelStyle: TextStyle(color: kAppThemeColor)
+              ),
             ),
           ),
         ),
