@@ -125,7 +125,8 @@ class DatabaseHelper {
     return db.query(DatabaseHelper.table, where: "categoria = ?", whereArgs: [category]);
   }
 
-  ///Modificação de registro
+  ///Modificação de registro (atualmente não há modificação de registro, até por motivos
+  ///de as características dos TutorialItems serem final)
   static Future<int> updateItem(TutorialItem tutorialItem) async {
     final db = await DatabaseHelper.db();
 

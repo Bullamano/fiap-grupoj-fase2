@@ -19,8 +19,10 @@ dependencies:
   google_fonts: ^3.0.1
 
 dev_dependencies:
+  test:
   flutter_test:
     sdk: flutter
+  sqflite_common_ffi:
 
   flutter_lints: ^2.0.0
 
