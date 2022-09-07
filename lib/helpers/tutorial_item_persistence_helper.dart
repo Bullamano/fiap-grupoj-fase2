@@ -72,6 +72,8 @@ class TutorialItemPersistenceHelper {
   }
 
   ///Método para atualizar uma entrada no banco através de suas propriedades
+  ///(atualmente não há modificação de registro, até por motivos de as
+  ///características dos TutorialItems serem final)
   static Future<void> updateItem(
     int id,
     String nome,

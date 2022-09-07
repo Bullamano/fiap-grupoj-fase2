@@ -49,6 +49,7 @@ class TutorialScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: kAppThemeColor,
         title: Text(
+          key: const Key('tituloTutorialItem'),
           arguments?.nome ?? 'Nome indisponível',
           style: const TextStyle(
             fontSize: 20,
@@ -63,13 +64,12 @@ class TutorialScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: kAppAccentColor,
         onPressed: () async {
-          if(arguments?.id != null) {
+          if (arguments?.id != null) {
             _deleteItem(arguments?.id as int, context);
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text('Deletado com sucesso!'),
             ));
-          }
-          else {
+          } else {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text('Não foi possível deletar!'),
             ));
@@ -89,7 +89,9 @@ class TutorialScreen extends StatelessWidget {
               children: [
                 Container(
                   child: Image(
-                    image: NetworkImage(ImageHelper.checkUrlForImage(arguments?.urlFoto)),
+                    key: const Key('imageTutorialItem'),
+                    image: NetworkImage(
+                        ImageHelper.checkUrlForImage(arguments?.urlFoto)),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -97,22 +99,24 @@ class TutorialScreen extends StatelessWidget {
                   text: 'Materiais:',
                 ),
                 Container(
-                  child:
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                        child: Text(arguments?.materiais ?? 'Materiais indisponíveis'),
-                      ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                    child: Text(
+                        key: const Key('materiaisTutorialItem'),
+                        arguments?.materiais ?? 'Materiais indisponíveis'),
+                  ),
                 ),
                 const SizedBox(height: 20),
                 const CustomListTitle(
                   text: 'Passo a Passo:',
                 ),
                 Container(
-                  child:
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                        child: Text(arguments?.passos ?? 'Passo a passo indisponível'),
-                      ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                    child: Text(
+                        key: const Key('passosTutorialItem'),
+                        arguments?.passos ?? 'Passo a passo indisponível'),
+                  ),
                 ),
               ],
             ),
