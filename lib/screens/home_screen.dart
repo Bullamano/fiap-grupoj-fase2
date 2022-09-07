@@ -206,7 +206,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                   child: GridView.builder(
-                    scrollDirection: Axis.vertical,
+                    //scrollDirection: Axis.vertical,
+                    physics: const ScrollPhysics(),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,

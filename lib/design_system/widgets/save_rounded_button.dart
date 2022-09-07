@@ -3,10 +3,11 @@ import 'package:need_help/design_system/colors.dart';
 
 class SaveRoundedButton extends StatelessWidget {
   const SaveRoundedButton({
+    Key? key,
     required this.text,
     required this.onPressed,
-});
-  
+  }) : super(key: key);
+
   final String text;
   final Function() onPressed;
 
@@ -34,4 +35,5 @@ class SaveRoundedButton extends StatelessWidget {
         ),
       ),
     );
-  }}
+  }
+}

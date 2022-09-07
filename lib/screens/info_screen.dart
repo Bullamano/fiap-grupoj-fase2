@@ -34,7 +34,6 @@ class InfoScreen extends StatelessWidget {
     try {
       TutorialItemPersistenceHelper.addItem(
           nome, materiais, passos, urlFoto, categoria);
-      Navigator.pop(context);
     } catch (ex) {
       if (kDebugMode) {
         print('Exception: $ex');
@@ -71,6 +70,7 @@ class InfoScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 //Nome
                 EditableTextField(
+                  key: const Key('tituloField'),
                   tutorialLabelText: 'Título',
                   tutorialHelperText: '"Como fazer miojo"',
                   textController: tituloController,
@@ -78,6 +78,7 @@ class InfoScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 //Materiais
                 EditableTextField(
+                  key: const Key('materiaisField'),
                   tutorialLabelText: 'Materiais',
                   tutorialHelperText: '"3 metros de corda, uma pá..."',
                   textController: materiaisController,
@@ -85,6 +86,7 @@ class InfoScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 //Passos
                 EditableTextField(
+                  key: const Key('passosField'),
                   tutorialLabelText: 'Passos',
                   tutorialHelperText:
                       '"Primeiro, pule bem alto. Em seguida, tente não cair..."',
@@ -93,6 +95,7 @@ class InfoScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 //URL da foto
                 EditableTextField(
+                  key: const Key('urlField'),
                   tutorialLabelText: 'URL para fotos (não obrigatório)',
                   tutorialHelperText:
                       '"https://i.kym-cdn.com/entries/icons/mobile/000/022/134/elmo.jpg"',
@@ -101,12 +104,14 @@ class InfoScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 //Categoria
                 EditableTextField(
+                  key: const Key('categoriaField'),
                   tutorialLabelText: 'Categoria (não obrigatório)',
                   tutorialHelperText: '"Comidas"',
                   textController: categoriaController,
                 ),
                 const SizedBox(height: 24),
                 SaveRoundedButton(
+                  key: const Key('saveButton'),
                   text: 'Salvar',
                   onPressed: () async {
                     try {
@@ -121,6 +126,8 @@ class InfoScreen extends StatelessWidget {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text('Salvo com sucesso!'),
                       ));
+
+                      Navigator.pop(context);
                     }
                     catch (Exception) {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
