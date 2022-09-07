@@ -17,6 +17,7 @@ class CategoryButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Material(
+        color: Colors.transparent,
         child: Directionality(
           textDirection: TextDirection.ltr,
           child: InkWell(

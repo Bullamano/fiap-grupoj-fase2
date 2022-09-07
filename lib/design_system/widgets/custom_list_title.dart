@@ -11,10 +11,13 @@ class CustomListTitle extends StatelessWidget{
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
-      child: ListTile(
-        title: Text(text,
-          style: TextStyle(fontSize: 30)
-          , textAlign: TextAlign.left,),
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: ListTile(
+          title: Text(text,
+            style: TextStyle(fontSize: 30)
+            , textAlign: TextAlign.left,),
+        ),
       ),
     );
   }

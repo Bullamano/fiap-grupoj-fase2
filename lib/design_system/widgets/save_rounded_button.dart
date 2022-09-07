@@ -16,14 +16,20 @@ class SaveRoundedButton extends StatelessWidget {
       color: kAppAccentColor,
       borderRadius: BorderRadius.circular(1000),
       elevation: 2,
-      child: ListTile(
-        onTap: onPressed,
-        title: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: kAppTextColor,
-            fontWeight: FontWeight.bold,
+      child: Material(
+        color: Colors.transparent,
+        child: Directionality(
+          textDirection: TextDirection.ltr,
+          child: ListTile(
+            onTap: onPressed,
+            title: Text(
+              text,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: kAppTextColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
       ),
